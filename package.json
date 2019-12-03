@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "build": "ng build --prod=true --progress=true",
-    "stage": "ng build --configuration=stage --progress=true",
+    "build": "npm run lint && ng build --prod=true --progress=true",
+    "stage": "npm run lint && ng build --configuration=stage --progress=true",
     "lint": "ng lint && stylelint \"src/app/**/*.scss\" --syntax scss && htmlhint \"src/app\" --config .htmlhintrc",
     "test": "ng test",
     "e2e": "ng e2e"
