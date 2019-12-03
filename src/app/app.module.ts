@@ -22,9 +22,7 @@ import { AppComponent } from '@app/app.component';
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
