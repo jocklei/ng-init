@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ToastrService } from 'ngx-toastr';
+import { AppService } from './app.service';
+import { LoggerService } from '@core/logger.service';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,15 @@ import { ToastrService } from 'ngx-toastr';
 export class AppComponent implements OnInit {
   title: string = 'ng-init';
 
-  constructor(private toastr: ToastrService) { }
+  constructor(
+    private log: LoggerService,
+    private appService: AppService) { }
 
   ngOnInit() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
-    this.toastr.warning('Hello world!', 'Toastr fun!');
-    this.toastr.info('Hello world!', 'Toastr fun!');
-    this.toastr.error('Hello world!', 'Toastr fun!');
+    this.log.info('test');
+    this.log.success('test');
+    this.log.warning('test');
+    this.log.error('test');
+    this.appService.cars('cars').subscribe(val => console.log(val));
   }
 }

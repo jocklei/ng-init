@@ -5,6 +5,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { CoreModule } from '@core/core.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { AppRoutingModule } from '@app/app-routing.module';
 
@@ -13,6 +14,7 @@ import { AppComponent } from '@app/app.component';
 
 @NgModule({
   imports: [
+    CoreModule,
     FormsModule,
     SharedModule,
     BrowserModule,
