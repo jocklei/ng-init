@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { RouteReuseStrategy, RouterModule } from '@angular/router';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { HttpService } from '@core/http/http.service';
-import { RouteReusableStrategy } from '@core/route-reusable-strategy';
 
 @NgModule({
   imports: [
@@ -13,8 +12,7 @@ import { RouteReusableStrategy } from '@core/route-reusable-strategy';
     HttpClientModule,
   ],
   providers: [
-    { provide: HttpClient, useClass: HttpService },
-    { provide: RouteReuseStrategy, useClass: RouteReusableStrategy }
+    { provide: HttpClient, useClass: HttpService }
   ]
 })
 export class CoreModule {

@@ -16,10 +16,9 @@ export class AppComponent implements OnInit {
     private appService: AppService) { }
 
   ngOnInit() {
-    this.log.info('test');
-    this.log.success('test');
-    this.log.warning('test');
-    this.log.error('test');
-    this.appService.cars('cars').subscribe(val => console.log(val));
+    this.appService.cars('distributors').subscribe((val: any) => {
+      this.log.debug(val);
+    }, error => console.log(error));
+
   }
 }

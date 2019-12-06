@@ -1,5 +1,5 @@
 import { Inject, Injectable, InjectionToken, Injector, Optional, Type } from '@angular/core';
-import { HttpClient, HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -7,7 +7,6 @@ import { CacheInterceptor } from '@core/http/cache.interceptor';
 import { ApiPrefixInterceptor } from '@core/http/api-prefix.interceptor';
 import { ErrorHandlerInterceptor } from '@core/http/error-handler.interceptor';
 
-// HttpClient is declared in a re-exported module, so we have to extend the original module to make it work properly
 // (see https://github.com/Microsoft/TypeScript/issues/13897)
 declare module '@angular/common/http/http' {
 
@@ -42,10 +41,7 @@ class HttpInterceptorHandler implements HttpHandler {
 
   constructor(private next: HttpHandler, private interceptor: HttpInterceptor) { }
 
-  handle(request: HttpRequest<any>): Observable<HttpEvent<any>> {
-    return this.interceptor.intercept(request, this.next);
-  }
-
+  handle(request: HttpRequest<any>): Observable<HttpEvent<any>> { return this.interceptor.intercept(request, this.next); }
 }
 
 /**
