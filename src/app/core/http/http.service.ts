@@ -67,57 +67,40 @@ export const HTTP_DYNAMIC_INTERCEPTORS = new InjectionToken<HttpInterceptor>('HT
 export class HttpService extends HttpClient {
 
   constructor(
-    private injector: Injector,
     private httpHandler: HttpHandler,
+    private injector: Injector,
     @Optional() @Inject(HTTP_DYNAMIC_INTERCEPTORS) private interceptors: HttpInterceptor[] = []) {
     super(httpHandler);
 
     if (!this.interceptors) {
       // Configure default interceptors that can be disabled here
-      this.interceptors = [
-        this.injector.get(ApiPrefixInterceptor),
-        this.injector.get(ErrorHandlerInterceptor)
-      ];
+      this.interceptors = [this.injector.get(ApiPrefixInterceptor), this.injector.get(ErrorHandlerInterceptor)];
     }
   }
 
-  // cache(forceUpdate?: boolean): HttpClient {
-  //   const cacheInterceptor = this.injector.get(CacheInterceptor as Type<CacheInterceptor>)
-  //     .configure({ update: forceUpdate });
-  //   return this.addInterceptor(cacheInterceptor);
-  // }
+  cache(forceUpdate?: boolean): HttpClient {
+    const cacheInterceptor = this.injector.get(CacheInterceptor as Type<CacheInterceptor>).configure({ update: forceUpdate });
 
-  // skipErrorHandler(): HttpClient {
-  //   return this.removeInterceptor(ErrorHandlerInterceptor);
-  // }
+    return this.addInterceptor(cacheInterceptor);
+  }
 
-  // disableApiPrefix(): HttpClient {
-  //   // return this.removeInterceptor(ApiPrefixInterceptor);
-  // }
+  disableApiPrefix(): HttpClient { return this.removeInterceptor(ApiPrefixInterceptor); }
+
+  skipErrorHandler(): HttpClient { return this.removeInterceptor(ErrorHandlerInterceptor); }
 
   // Override the original method to wire interceptors when triggering the request.
   request(method?: any, url?: any, options?: any): any {
-    const handler = this.interceptors.reduceRight(
-      (next, interceptor) => new HttpInterceptorHandler(next, interceptor),
-      this.httpHandler
-    );
+    const handler = this.interceptors.reduceRight((next, interceptor) => new HttpInterceptorHandler(next, interceptor), this.httpHandler);
+
     return new HttpClient(handler).request(method, url, options);
   }
 
-  // private removeInterceptor(interceptorType: Type<HttpInterceptor>): HttpService {
-  //   return new HttpService(
-  //     this.httpHandler,
-  //     this.injector,
-  //     this.interceptors.filter(i => !(i instanceof interceptorType))
-  //   );
-  // }
+  private removeInterceptor(interceptorType: Type<HttpInterceptor>): HttpService {
+    return new HttpService(this.httpHandler, this.injector, this.interceptors.filter(i => !(i instanceof interceptorType)));
+  }
 
-  // private addInterceptor(interceptor: HttpInterceptor): HttpService {
-  //   return new HttpService(
-  //     this.httpHandler,
-  //     this.injector,
-  //     this.interceptors.concat([interceptor])
-  //   );
-  // }
+  private addInterceptor(interceptor: HttpInterceptor): HttpService {
+    return new HttpService(this.httpHandler, this.injector, this.interceptors.concat([interceptor]));
+  }
 
 }
