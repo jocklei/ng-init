@@ -23,7 +23,7 @@
     "@angular/router": "~8.2.14",
     "@angular/service-worker": "^8.2.14",
     "date-fns": "^2.8.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "ngx-order-pipe": "^2.0.4",
     "ngx-toastr": "^11.2.1",
     "ngx-trim": "^1.0.1",
